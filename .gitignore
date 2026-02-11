@@ -1,0 +1,9 @@
+.DS_Store
+node_modules/
+.vscode/
+*.log
+# Editor swap/temp files
+*~
+# Build artifacts
+dist/
+build/
