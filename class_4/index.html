@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .head {
+        height: 10vh;
+        width: 100vw;
+        margin-top: 20px;
+        margin-left: 48px;
+      }
+      .main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+      }
+      #gp {
+        width: 60vw;
+        height: 40vh;
+        background-color: rgb(240, 141, 128);
+        border-radius: 20px;
+        text-align: center;
+        font-weight: bold;
+        box-shadow: 10px;
+        margin-right: 12px;
+      }
+      #log {
+        width: 40vw;
+        height: 40vh;
+        background-color: azure;
+        border-radius: 20px;
+        padding: 20px;
+        font-weight: bold;
+        box-shadow: 10px;
+      }
+      #p {
+        width: 50vw;
+        height: 20vh;
+        background-color: rgb(64, 187, 224);
+        border-radius: 20px;
+        margin-top: 50px;
+        margin-left: 60px;
+      }
+      #c {
+        margin-top: 70px;
+      }
+      #btn {
+        color: white;
+        background-color: green;
+        border-radius: 20px;
+        height: 50px;
+        width: 120px;
+      }
+      .log_head {
+        display: flex;
+        justify-content: space-between;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="head">
+      <h2 class="title">Event Flow Playground</h2>
+      <p class="text">demo of capturing and bubbling</p>
+    </div>
+    <div class="main">
+      <div id="gp">
+        Grandparent
+        <div id="p">
+          Parent
+          <div id="c">
+            <button id="btn">Click Me</button>
+          </div>
+        </div>
+      </div>
+      <div id="log">
+        <div class="log_head">
+          <h3>Event Log</h3>
+          <button id="log_btn">X</button>
+        </div>
+
+        <div class="staus">
+          <li id="stat"></li>
+          <li>dummy </li>
+          <li>bubbling </li>
+        </div>
+      </div>
+    </div>
+    <script>
+      const stat = document.querySelector("#stat");
+
+      document.querySelector("#gp").addEventListener(
+        "click",
+        () => {
+          let p=console.log("Grandparent was Clicked!")
+          stat.innerHTML="Grandparent: "+p;
+        },
+        false
+      );
+      document.querySelector("#p").addEventListener(
+        "click",
+        (event) => {
+          let p= console.log(" Parent CLicked!");
+        //   event.stopPropagation();
+        stat.innerHTML="Parent: "+p;
+        },
+        true,
+      );
+      document.querySelector("#c").addEventListener(
+        "click",
+        (e) => {
+          const p=console.log(" Child CLicked!-1");
+        //   e.stopImmediatePropagation();
+        stat.innerHTML="Child: "+p;
+        },
+        false,
+      );
+    </script>
+  </body>
+</html>

@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0%;
+            padding: 0%;
+        }
+        .input-container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 10vh;
+            width: 100vw;
+            background-color: slategray;
+            gap: 1rem;
+        }
+        .weather-container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+            width: 100vw;
+            background-color: darkslategray;
+            color: white;
+            gap: 1rem;
+        }
+        #input {
+            padding: 8px 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+        }
+        #search-button {
+            padding: 8px 16px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #search-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="input-container">
+        <input type="text" name="" id="input" placeholder="Enter Location" />
+        <button id="search-button">Search</button>
+      </div>
+    </header>
+    <main>
+      <div class="weather-container">
+        <div class="temperature">12.5 °C</div>
+        <div class="location-data">
+          <div class="location" id="location">Delhi</div>
+          <span class="time">9:15</span>
+          <span class="day">Friday</span>
+          <span class="date">2026-01-30</span>
+        </div>
+        <div class="weather-status">
+          <div class="icon">
+            <img
+              src="//cdn.weatherapi.com/weather/64x64/night/143.png"
+              alt="weather-status-icon"
+              id="weather-icon"
+            />
+          </div>
+          <div>
+            <div class="condition-text" id="condition-text">Sunny</div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const API_KEY = "1d5187a1f5474d3b89c60606263001";
+
+      // Get DOM elements
+      const inputEle = document.getElementById("input");
+      const btnELe = document.getElementById("search-button");
+
+      btnEle.addEventListener("click", async function (){
+        const location = inputEle.value.trim();
+        console.log(location)
+
+        if(location != ""){
+            //get data 
+            const data = await fetchweather(location);
+            if (data != null) {
+                updateDom(data);
+            }
+            inputEle.value="";
+        }
+
+
+
+
+        //call api
+      
+        async function fetchweather() {
+        console.log("Inside function");
+        const url= `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${location}`;
+        const response = await fetch(url);
+        console.log("works")
+
+        //updateDOM
+
+        function updateDom(data){
+            console.log("updation",data);
+            const temp= data.current.temp_c;
+            const location= data.location.name;
+            const timeData=data.location.localtime;
+            const [date, time] = data.location.localtime.split(" ");
+            const icon = data.current.condition.icon;
+            console.log(temp, location, timeData, icon);
+
+            const temperature=document.querySelector(".temperature");
+            const locationEle=document.querySelector(".location");
+            const emoji=document.querySelector("img");
+
+            temperature.textContent = temp + "C";
+            locationEle.textContent = location;
+            emoji.src=icon;
+
+            
+        }
+
+
+        // const response = await fetch(
+        //     `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}`
+        //   );
+        console.log(response);
+        const jsonData = await response.json();
+        console.log("Bottom of fn")
+
+      }
+    //   fetchweather(location.then(data)()=>{
+        
+    //   });
+      console.log("After");
+      })
+
+      
+    </script>
+  </body>
+</html>
